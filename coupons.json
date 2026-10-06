@@ -1,4 +1,16 @@
 {
-  "updated": "2026-10-06T01:56:42Z",
-  "coupons": []
+  "updated": "2026-10-06T02:51:32Z",
+  "coupons": [
+    {
+      "product": "udemy",
+      "course_id": "5793914",
+      "course_name": "『Python初心者のための演習問題集【基本文法編】』〜成功体験がスキルアップの最短ルート〜",
+      "url": "https://www.udemy.com/course/python-ce-basic/?couponCode=5394C8037E3B90F1F7D6",
+      "price": 1300,
+      "currency": "JPY",
+      "limit": null,
+      "start": "2026-10-06T02:49:00Z",
+      "end": "2026-10-11T02:49:00Z"
+    }
+  ]
 }
