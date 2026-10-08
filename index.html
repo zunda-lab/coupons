@@ -45,12 +45,16 @@
     border: 1px solid var(--line);
     border-radius: 12px;
     padding: 20px 24px;
+  }
+  .card h3 { margin: 0 0 8px; font-size: 17px; line-height: 1.5; }
+  .offer {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 8px 24px;
     align-items: center;
   }
-  .card h3 { margin: 0; font-size: 17px; line-height: 1.5; grid-column: 1 / -1; }
+  .offer + .offer { border-top: 1px dashed var(--line); margin-top: 16px; padding-top: 16px; }
+  .hint { color: var(--ink-sub); font-size: 13px; margin: 4px 0 0; }
   .meta { color: var(--ink-sub); font-size: 14px; margin: 0; }
   .meta b { color: var(--ink); font-weight: 500; }
   .price { font-size: 24px; font-weight: 700; color: var(--zl-green-deep); white-space: nowrap; }
@@ -75,7 +79,8 @@
   @media (max-width: 600px) {
     .hero { padding: 32px 0 24px; }
     .hero h1 { font-size: 24px; }
-    .card { grid-template-columns: 1fr; padding: 20px; }
+    .card { padding: 20px; }
+    .offer { grid-template-columns: 1fr; }
     .button { width: 100%; }
   }
 </style>
@@ -125,30 +130,49 @@
     return currency === "JPY" ? `¥${price.toLocaleString("ja-JP")}` : `${price.toLocaleString("ja-JP")} ${currency}`;
   }
 
-  // 1 講座に使えるクーポンが複数あれば、安いほう（同じなら長く使えるほう）を出す
+  // 先着のもの（無料は人数の記載がなくても先着とみなす）は、使い切られてもページには分からない
+  const limited = c => Boolean(c.limit) || c.price === 0;
+  // 安いほう（同じなら長く使えるほう）
+  const better = (c, b) => !b || c.price < b.price || (c.price === b.price && c.end > b.end);
+
+  // 1 講座につき、先着のいちばん安いもの と 人数の制限なしのいちばん安いもの を選ぶ。
+  // 先着のほうが安ければ両方を並べる（使い切られても下の値段で買える）。そうでなければ安いほうだけ
   function pick(coupons, now) {
     const live = coupons.filter(c => new Date(c.start) <= now && now < new Date(c.end));
-    const best = new Map();
+    const courses = new Map();
     for (const c of live) {
-      const b = best.get(c.course_id);
-      if (!b || c.price < b.price || (c.price === b.price && c.end > b.end)) best.set(c.course_id, c);
+      const slot = courses.get(c.course_id) || { limited: null, open: null };
+      const key = limited(c) ? "limited" : "open";
+      if (better(c, slot[key])) slot[key] = c;
+      courses.set(c.course_id, slot);
     }
-    return [...best.values()];
+    return [...courses.values()].map(({ limited: l, open: o }) => {
+      if (l && o) return l.price < o.price ? [l, o] : [o];
+      return [l || o];
+    });
   }
 
-  function card(c) {
-    const li = document.createElement("li");
-    li.className = "card";
-    const limit = c.limit ? `・先着 <b>${c.limit} 名</b>` : "";
-    li.innerHTML = `
-      <h3></h3>
+  function offer(c, next) {
+    const div = document.createElement("div");
+    div.className = "offer";
+    const limit = c.limit ? `・先着 <b>${c.limit} 名</b>` : (c.price === 0 ? "・先着順" : "");
+    const hint = next ? `<p class="hint">なくなったら、下の ${yen(next.price, next.currency)} のクーポンをどうぞ</p>` : "";
+    div.innerHTML = `
       <div>
         <div class="price">${yen(c.price, c.currency)}<small>クーポン価格</small></div>
-        <p class="meta"><b>${jst(c.end)}</b> まで${limit}</p>
+        <p class="meta"><b>${jst(c.end)}</b> まで${limit}</p>${hint}
       </div>
       <a class="button" target="_blank" rel="noopener">クーポンで講座を見る</a>`;
-    li.querySelector("h3").textContent = c.course_name;
-    li.querySelector("a").href = c.url;
+    div.querySelector("a").href = c.url;
+    return div;
+  }
+
+  function card(offers) {
+    const li = document.createElement("li");
+    li.className = "card";
+    const h3 = document.createElement("h3");
+    h3.textContent = offers[0].course_name;
+    li.append(h3, ...offers.map((c, i) => offer(c, offers[i + 1])));
     return li;
   }
 

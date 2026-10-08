@@ -1,6 +1,72 @@
 {
-  "updated": "2026-10-06T02:51:32Z",
+  "updated": "2026-10-08T05:34:37Z",
   "coupons": [
+    {
+      "product": "udemy",
+      "course_id": "7323717",
+      "course_name": "【爆速AI駆動開発】ClaudeCodeでStreamlitをおまかせ開発！デグレしない投資分析ツール育成ハンズオン",
+      "url": "https://www.udemy.com/course/aiclaudecodestreamlit/?couponCode=CCST-YT-BEST261008",
+      "price": 1300,
+      "currency": "JPY",
+      "limit": null,
+      "start": "2026-10-08T06:00:00Z",
+      "end": "2026-10-13T06:00:00Z"
+    },
+    {
+      "product": "udemy",
+      "course_id": "7323717",
+      "course_name": "【爆速AI駆動開発】ClaudeCodeでStreamlitをおまかせ開発！デグレしない投資分析ツール育成ハンズオン",
+      "url": "https://www.udemy.com/course/aiclaudecodestreamlit/?couponCode=CCST-YT-FREE261008",
+      "price": 0,
+      "currency": "JPY",
+      "limit": 10,
+      "start": "2026-10-08T06:00:00Z",
+      "end": "2026-10-13T06:00:00Z"
+    },
+    {
+      "product": "udemy",
+      "course_id": "7323707",
+      "course_name": "【爆速AI駆動開発】ClaudeCodeでDjangoをおまかせ開発！機能追加でもデグレしないWebアプリ育成ハンズオン",
+      "url": "https://www.udemy.com/course/aiclaudecodedjango/?couponCode=CCDJ-YT-BEST261008",
+      "price": 1300,
+      "currency": "JPY",
+      "limit": null,
+      "start": "2026-10-08T06:00:00Z",
+      "end": "2026-10-13T06:00:00Z"
+    },
+    {
+      "product": "udemy",
+      "course_id": "7323707",
+      "course_name": "【爆速AI駆動開発】ClaudeCodeでDjangoをおまかせ開発！機能追加でもデグレしないWebアプリ育成ハンズオン",
+      "url": "https://www.udemy.com/course/aiclaudecodedjango/?couponCode=CCDJ-YT-FREE261008",
+      "price": 0,
+      "currency": "JPY",
+      "limit": 10,
+      "start": "2026-10-08T06:00:00Z",
+      "end": "2026-10-13T06:00:00Z"
+    },
+    {
+      "product": "udemy",
+      "course_id": "7250695",
+      "course_name": "【爆速AI駆動開発】ClaudeCodeでほったらかし！テスト駆動開発で完成判定する新時代のPython開発ハンズオン",
+      "url": "https://www.udemy.com/course/aiclaudecodepython/?couponCode=CCPY-YT-BEST261008",
+      "price": 1300,
+      "currency": "JPY",
+      "limit": null,
+      "start": "2026-10-08T06:00:00Z",
+      "end": "2026-10-13T06:00:00Z"
+    },
+    {
+      "product": "udemy",
+      "course_id": "7250695",
+      "course_name": "【爆速AI駆動開発】ClaudeCodeでほったらかし！テスト駆動開発で完成判定する新時代のPython開発ハンズオン",
+      "url": "https://www.udemy.com/course/aiclaudecodepython/?couponCode=CCPY-YT-FREE261008",
+      "price": 0,
+      "currency": "JPY",
+      "limit": 10,
+      "start": "2026-10-08T06:00:00Z",
+      "end": "2026-10-13T06:00:00Z"
+    },
     {
       "product": "udemy",
       "course_id": "5793914",
