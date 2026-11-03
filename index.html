@@ -6,6 +6,7 @@
 <title>講座クーポン | Zunda Lab.</title>
 <meta name="description" content="Zunda Lab. の講座を割引の値段で受講できる、いま使えるクーポンの一覧です。">
 <link rel="icon" href="logo-mark.png">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="b3476067-ff18-4f3a-8572-f148c442219c" data-domains="coupon.zundalab.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -117,6 +118,23 @@
   const PROFILE = "https://www.udemy.com/user/xiao-ye-hong-si/";
   const WEEK = ["日", "月", "火", "水", "木", "金", "土"];
 
+  // 来た道：?from= の印 → 来る前のページ → そのほか（tracking_plan.md）
+  const FROM = (() => {
+    const tag = new URLSearchParams(location.search).get("from");
+    if (tag === "note" || tag === "youtube") return tag;
+    let host = "";
+    try { host = new URL(document.referrer).hostname; } catch (e) {}
+    if (host === "note.com" || host.endsWith(".note.com")) return "note";
+    if (/(^|\.)youtube\.com$/.test(host) || host === "youtu.be") return "youtube";
+    return "other";
+  })();
+
+  // Umami の読み込みが遅れても、ブロックされても、ページは止めない
+  function track(name, data) {
+    try { if (window.umami) window.umami.track(name, data); } catch (e) {}
+  }
+  window.addEventListener("load", () => track("visit", { from: FROM }));
+
   function jst(iso) {
     const p = Object.fromEntries(new Intl.DateTimeFormat("ja-JP", {
       timeZone: "Asia/Tokyo", year: "numeric", month: "numeric", day: "numeric",
@@ -163,7 +181,9 @@
         <p class="meta"><b>${jst(c.end)}</b> まで${limit}</p>${hint}
       </div>
       <a class="button" target="_blank" rel="noopener">クーポンで講座を見る</a>`;
-    div.querySelector("a").href = c.url;
+    const a = div.querySelector("a");
+    a.href = c.url;
+    a.addEventListener("click", () => track("to-course", { from: FROM, course: c.course_name }));
     return div;
   }
 
